@@ -1,0 +1,18 @@
+<div id="locations">
+  <div class="toolbar">
+    <a class="back">Back</a>
+    <h1>Nearby Locations</h1>
+  </div>
+  <ul class="plastic">
+    <% for location in @locations %>
+      <li><%= location['Addr'] %> <i style="font-size: 14px"><%= location['Vdr'] %></i>
+        <small><a href="http://maps.google.com/maps?daddr=<%= "#{params[:lat]},#{params[:long]}" %>&saddr=<%= "#{location['Lat']},#{location['Lng']}" %>" rel="external"> <%= location['Dist'] %>mi</a></small>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="info">
+    Served at <%= Time.now %>
+  </div>
+</div>
+

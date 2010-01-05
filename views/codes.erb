@@ -1,0 +1,14 @@
+<div id="codes">
+  <div class="toolbar">
+    <a class="back">Back</a>
+    <h1>Codes</h1>
+  </div>
+  <ul class="plastic">
+    <% for code in @codes %>
+      <li><%= code %></li>
+    <% end %>
+  </ul>
+  <div class="info">
+    Served at <%= Time.now %>
+  </div>
+</div>
