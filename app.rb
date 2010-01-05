@@ -15,8 +15,6 @@ class ZipCode
   property :zip_code, Integer
   property :lat, Float
   property :lon, Float
-
-  storage_names[:default] = 'zip_code'
 end
 
 
