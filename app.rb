@@ -7,8 +7,7 @@ require 'open-uri'
 
 require 'data_mapper'
 
-
-DataMapper.setup(:default, "mysql://root:t3xtmat3@localhost:3306/test")
+DataMapper.setup(:default, ENV['DATABASE_URL'] || "mysql://root:t3xtmat3@localhost:3306/test")
 
 class ZipCode
   include DataMapper::Resource
