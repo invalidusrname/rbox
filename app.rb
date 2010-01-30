@@ -32,9 +32,20 @@ get '/codes' do
   doc.css('#codelist td.code_listing').each do |row|
     info = Hash.new
     info[:status]  = determine_color(row.at_css(".code_status img")['src'])
+
+    next if info[:status] == 'expired'
+
     info[:code]    = row.at_css(".code_code").content.strip unless row.at_css(".code_code").nil?
+
+    next if info[:code].to_s == ''
+
     info[:special] = row.at_css(".code_special").content.strip unless row.at_css(".code_special").nil?
     info[:date]    = row.at_css(".code_lastuse").content.strip unless row.at_css(".code_lastuse").nil?
+
+    if info[:date].match(/(\d{2}\/\d{2}\/\d{2})/)
+      info[:date] = $1.strip
+    end
+
     info[:purpose] = row.at_css(".code_purpose").content.strip unless row.at_css(".code_purpose").nil?
     @codes << info
   end

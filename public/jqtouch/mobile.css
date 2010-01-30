@@ -24,7 +24,7 @@ ul li.expired {
 }
 
 ul li.unknown {
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFF00), to(#FFFF33));
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFF33), to(#FFCC00));
 
 }
 
