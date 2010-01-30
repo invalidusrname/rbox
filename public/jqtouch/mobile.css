@@ -11,8 +11,8 @@ ul li.weekend {
 }
 
 ul.plastic li {
-  color: white;
-  text-shadow: rgba(0,0,0,0.6) 0 1px 1px;
+  color: black;
+/*  text-shadow: rgba(0,0,0,0.6) 0 1px 1px;*/
 }
 
 ul li.new {
