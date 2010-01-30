@@ -14,3 +14,20 @@ ul.plastic li {
   color: white;
   text-shadow: rgba(0,0,0,0.6) 0 1px 1px;
 }
+
+ul li.new {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#00CC33), to(#006633));
+}
+
+ul li.expired {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FF0000), to(#CC0000));
+}
+
+ul li.unknown {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFF00), to(#FFFF33));
+
+}
+
+ul.plastic li small {
+  color: black;
+}

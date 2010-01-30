@@ -4,8 +4,11 @@
     <h1>Codes</h1>
   </div>
   <ul class="plastic">
-    <% for code in @codes %>
-      <li><%= code %></li>
+    <% for info in @codes %>
+      <li class="<%= info[:status] %>">
+        <%= info[:code] %>
+        <small><%= [info[:date], info[:special]] * ' ' %></small>
+      </li>
     <% end %>
   </ul>
   <div class="info">

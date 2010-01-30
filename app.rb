@@ -24,14 +24,19 @@ get "/" do
 end
 
 get '/codes' do
-
   doc = Nokogiri::HTML(open('http://www.insideredbox.com/redbox-codes/'))
 
   @codes = []
 
   # table#codelist tbody tr
-  doc.css('#codelist span.codelink').each do |code|
-    @codes << code.content
+  doc.css('#codelist td.code_listing').each do |row|
+    info = Hash.new
+    info[:status]  = determine_color(row.at_css(".code_status img")['src'])
+    info[:code]    = row.at_css(".code_code").content.strip unless row.at_css(".code_code").nil?
+    info[:special] = row.at_css(".code_special").content.strip unless row.at_css(".code_special").nil?
+    info[:date]    = row.at_css(".code_lastuse").content.strip unless row.at_css(".code_lastuse").nil?
+    info[:purpose] = row.at_css(".code_purpose").content.strip unless row.at_css(".code_purpose").nil?
+    @codes << info
   end
 
   erb :codes
@@ -87,5 +92,16 @@ def search(lat, long)
       end
     end
     data
+  end
+end
+
+def determine_color(img)
+  case img
+  when /green/
+    'new'
+  when /red/
+    'expired'
+  else
+    'unknown'
   end
 end
