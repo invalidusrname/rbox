@@ -87,13 +87,20 @@ def search(lat, long)
   headers = {
     'Host'       => "www.redbox.com",
     'User-Agent' => "Rubies",
+    'Origin'     => "http://www.redbox.com",
     'Referer'    => "http://www.redbox.com/Locations/LocationSearch.aspx",
     'Content-Type' => 'application/json; charset=utf-8'
   }
 
-  http = Net::HTTP.new('www.redbox.com')
+  http = Net::HTTP.new('www.redbox.com', 80)
+  path = '/Locations/LocationSearch.aspx'
 
   data = http.start do |net|
+    resp, data = net.get(path, nil)
+    cookie = resp.response['set-cookie']
+
+    headers['Cookie'] = cookie
+
     net.request_post(url, params.to_json, headers) do |response|
       data = {}
       if response.is_a? Net::HTTPSuccess
