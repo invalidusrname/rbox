@@ -54,9 +54,6 @@ get '/codes' do
 end
 
 post '/locations' do
-
-  puts params[:zip].to_s + '------'
-
   if params[:zip].to_s.length > 0
     zip_code = ZipCode.first(:zip_code => params[:zip])
     params[:lat] = zip_code.lat
@@ -75,8 +72,6 @@ post '/locations' do
 end
 
 def search(lat, long)
-  url = "/ajax.svc/Kiosk/GetNearbyKiosks"
-
   params =  {
               "latitude" => lat, "longitude" => long,
               "radius" => 50, "maxKiosks" => 50, "mcdOnly" => false,
@@ -86,27 +81,30 @@ def search(lat, long)
 
   headers = {
     'Host'       => "www.redbox.com",
-    'User-Agent' => "Rubies",
+    'User-Agent' => "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_2; en-us) AppleWebKit/533.1+ (KHTML, like Gecko) Version/4.0.4 Safari/531.21.10",
     'Origin'     => "http://www.redbox.com",
     'Referer'    => "http://www.redbox.com/Locations/LocationSearch.aspx",
     'Content-Type' => 'application/json; charset=utf-8'
   }
 
-  http = Net::HTTP.new('www.redbox.com', 80)
+  http = Net::HTTP.new('www.redbox.com')
   path = '/Locations/LocationSearch.aspx'
+  resp, data = http.get(path, nil)
+  cookie = resp.response['set-cookie'].split(';')[0]
+  headers['Cookie'] = cookie
+
+  doc = Nokogiri::HTML(resp.body.to_s)
+  k = doc.at_css("#__K")['value']
+  params['__K'] = k
 
   data = http.start do |net|
-    resp, data = net.get(path, nil)
-    cookie = resp.response['set-cookie']
-
-    headers['Cookie'] = cookie
-
-    net.request_post(url, params.to_json, headers) do |response|
+    path = "/ajax.svc/Kiosk/GetNearbyKiosks"
+    net.request_post(path, params.to_json, headers) do |response|
       data = {}
       if response.is_a? Net::HTTPSuccess
         data = JSON.parse(response.body)
       else
-        data = {:error => "Couldn't contact server"}
+        data = {:error => "Couldn't contact server", :response => response}
       end
     end
     data
