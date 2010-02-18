@@ -1,0 +1,4 @@
+h1. RBox
+
+RBox is a mobile application used to locate nearby Red Box vending machines. The application is built on top of Sinatra and utilitzes jqTouch.
+
